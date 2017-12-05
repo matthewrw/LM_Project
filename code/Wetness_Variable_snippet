@@ -1,0 +1,8 @@
+rel_humid100_temp <- c(0,5,10,15,17,19,20,22,24,26,29,32,35)
+rel_humid100_water <- c(4.2,5.74,7.84,10.7,12.12,13.73,14.62,16.56,18.76,21.25,25.62,30.89,37.24)
+
+water_at_full <- approxfun(x = rel_humid100_temp, y = rel_humid100_water )
+est_wetness_metric <- function(Temp,rh){
+  return(water_at_full(Temp)*rh)
+}
+wetness <- est_wetness_metric(temp,RH)
