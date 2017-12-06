@@ -17,31 +17,35 @@ train = read.csv("train.csv")
 #Remove point 89 - bad bad outlier 
 train = train[-89, ]
 
-
-m = lm(ISI ~., data = train[-89,])
+#fit initial model
+m = lm(ISI ~., data = train)
 summary(m)
 
+#look at plots
 par(mfrow = c(2,2))
 plot(m)
 
+#look at boxcox - 305 is zero - remove it for the moment
+m = lm(ISI ~., data = train[-304,])
+MASS::boxcox(m)
+
+#try square root
 train2 = train[,-1]
-train2$lISI = log(train$ISI + 1)
+train2$sqISI = sqrt(train$ISI)
 
-m = lm(lISI ~., data = train2)
+m = lm(sqISI ~., data = train2)
 summary(m)
 par(mfrow = c(2,2))
 plot(m)
 
-m = lm(ISI ~., data = train[-305,])
-boxcox(m)
+#--------------------------------------------
+#
+#		Added Variable Plots
+#
+#--------------------------------------------
+library(car)
+av.plots(m)
 
-train3 = train[,-1]
-train3$sqISI = (train$ISI)^(1/2)
-
-m = lm(sqISI ~., data = train3[-89,])
-summary(m)
-par(mfrow = c(2,2))
-plot(m)
 
 
 
