@@ -5,7 +5,19 @@
 #--------------------------------------------
 
 setwd("~/Desktop/github/LM_Project/data")
-train = read.csv("train.csv")
+train = data.frame(read.csv("train.csv"))
+
+#--------------------------------------------
+#
+#		Cast as factors		 
+#
+#--------------------------------------------
+
+train$wkd = as.factor(train$wkd)
+train$wkdM = as.factor(train$wkdM)
+train$summer = as.factor(train$summer)
+train$FFMCQuantile = as.factor(train$FFMCQuantile)
+train$rainvnorain = as.factor(train$rainvnorain)
 
 #--------------------------------------------
 #
@@ -25,7 +37,7 @@ summary(m)
 par(mfrow = c(2,2))
 plot(m)
 
-#look at boxcox - 305 is zero - remove it for the moment
+#look at boxcox - 304 is zero - remove it for the moment
 m = lm(ISI ~., data = train[-304,])
 MASS::boxcox(m)
 
@@ -38,14 +50,25 @@ summary(m)
 par(mfrow = c(2,2))
 plot(m)
 
+#really doesn't help all that much 
+#Wind and FFMC quanitule look really good every thing esle not so much
+#Gonna try and fit just a simple bivariate model
+
+m = lm(ISI~FFMCQuantile + wind, data = train)
+
 #--------------------------------------------
 #
 #		Added Variable Plots
 #
 #--------------------------------------------
-library(car)
-av.plots(m)
+m = lm(sqISI~., data = train)
+car::avPlots(m)
 
+#--------------------------------------------
+#
+#		Added Variable Plots
+#
+#--------------------------------------------
 
 
 
