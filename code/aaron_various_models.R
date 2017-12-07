@@ -1,6 +1,6 @@
-#Kelly Kung
+#Aaron Elliot
 #MA 575 Final Project
-#set up indicators and transform data
+#tried several models, and compared using BIC
 
 setwd("/Home/Fall 2017/CS210/FinalProject/LM_Project")
 fires<-read.csv("Data/forestfires.csv")
@@ -11,6 +11,19 @@ test <- fires[-train.ind, ]
 attach(train)
 library(car)
 scatterplotMatrix(train)
+
+#_________________________
+#Notes
+#_________________________
+#All multiplied variables
+#result in models with all
+#possible combinations of
+#those variables.
+#i.e. y~a*b*c >>> y = abc+ab+bc+ac+a+b+c+1
+
+#Currently, I am trying things and seeing how
+#they stick, consider these estimates biased 
+#when evaluating the final model.
 
 #Round1!
 #         BIC
@@ -35,15 +48,18 @@ scatterplotMatrix(train)
 # M4   ,  2039.552
 # M5   ,  2015.323
 # M6   ,  2009.803
+# M7   ,  2072.72
 
 #Round2
 # M4 is Exp(FFMC)*DMC +Exp(FFMC)*DC + temp
 # M5 is Exp(FFMC)*DMC*DC+temp
 # M6 is Exp(FFMC)*DMC*DC
+# M7 is Exp(-1.386FFMC)*DMC*DC
 
 windExp <- 2^(wind/19)
-FineFuel <- exp(-.1386*FFMC)*(1+FFMC^5.31/(49300000))
-FFEXP      <- exp(FFMC)
+FineFuel<- exp(-.1386*FFMC)*(1+FFMC^5.31/(49300000))
+FFEXP   <- exp(FFMC)
+FFEXP2  <- exp(-.1386*FFMC)  
 
 M1.1 <- lm(ISI ~ windExp*FineFuel, data = train)
 summary(M1.1)
@@ -92,6 +108,11 @@ M6 <- lm(ISI ~ FFEXP*DC*DMC)
 summary(M6)
 plot(M6,which=1:4)
 BIC(M6)
+
+M7 <- lm(ISI ~ FFEXP2*DC*DMC)
+summary(M7)
+plot(M7,which=1:4)
+BIC(M7)
 
 
 
