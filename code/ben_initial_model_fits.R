@@ -18,6 +18,7 @@ train$wkdM = as.factor(train$wkdM)
 train$summer = as.factor(train$summer)
 train$FFMCQuantile = as.factor(train$FFMCQuantile)
 train$rainvnorain = as.factor(train$rainvnorain)
+train$grid_group = as.factor(train$grid_group)
 
 #--------------------------------------------
 #
@@ -30,7 +31,7 @@ train$rainvnorain = as.factor(train$rainvnorain)
 train = train[-89, ]
 
 #fit initial model
-m = lm(ISI ~., data = train)
+m = lm(ISI ~., data = train[,-c(9,12)])
 summary(m)
 
 #look at plots
@@ -38,7 +39,7 @@ par(mfrow = c(2,2))
 plot(m)
 
 #look at boxcox - 304 is zero - remove it for the moment
-m = lm(ISI ~., data = train[-304,])
+m = lm(ISI ~., data = t[-304,])
 MASS::boxcox(m)
 
 #try square root
@@ -61,7 +62,7 @@ m = lm(ISI~FFMCQuantile + wind, data = train)
 #		Added Variable Plots
 #
 #--------------------------------------------
-m = lm(sqISI~., data = train)
+m = lm(sqISI~., data = train2)
 car::avPlots(m)
 
 #--------------------------------------------
@@ -69,6 +70,9 @@ car::avPlots(m)
 #		Added Variable Plots
 #
 #--------------------------------------------
+
+
+
 
 
 
