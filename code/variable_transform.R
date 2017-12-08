@@ -113,9 +113,9 @@ fires$rainvnorain<-rainvnorain
 
 #create train data 
 set.seed(575)
-train.ind <- sample.int(n = nrow(fullData), size = floor(nrow(fullData) * 0.7), replace = FALSE)
-train<- fullData[train.ind, ]
-test <- fullData[-train.ind, ]
+train.ind <- sample.int(n = nrow(fires), size = floor(nrow(fires) * 0.7), replace = FALSE)
+train<- fires[train.ind, ]
+test <- fires[-train.ind, ]
 
 #save the data:
 write.csv(test, "/Users/kkung/Documents/GitHub/LM_Project/data/test.csv", row.names=FALSE)
