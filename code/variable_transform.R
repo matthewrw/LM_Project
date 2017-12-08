@@ -111,9 +111,6 @@ fires$FFMCQuantile<-FFMCQuantile
 fires$wetness<-wetness
 fires$rainvnorain<-rainvnorain
 
-#clean data so we only have columns we need
-fullData<-fires[c("ISI", "FFMC", "DMC", "DC", "temp", "RH", "wind", "wkd", "wkdM", 
-                  "summer", "areaTrans", "FFMCQuantile", "wetness", "rainvnorain", "forest_ind", "grid_group")]
 #create train data 
 set.seed(575)
 train.ind <- sample.int(n = nrow(fullData), size = floor(nrow(fullData) * 0.7), replace = FALSE)
