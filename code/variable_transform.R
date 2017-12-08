@@ -111,9 +111,6 @@ fires$FFMCQuantile<-FFMCQuantile
 fires$wetness<-wetness
 fires$rainvnorain<-rainvnorain
 
-#take out the outlier
-firesNoOut<-fires[-c(23),]
-
 #clean data so we only have columns we need
 fullData<-fires[c("ISI", "DMC", "DC", "temp", "RH", "wind", "wkd", "wkdM", 
                   "summer", "areaTrans", "FFMCQuantile", "wetness", "rainvnorain", "forest_ind", "grid_group")]
