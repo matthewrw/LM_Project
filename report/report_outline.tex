@@ -1,0 +1,93 @@
+\documentclass{article}
+\begin{document}
+
+\begin{abstract}
+
+\end{abstract}
+
+\section{Introduction}
+
+\begin{itemize}
+
+\item overview
+\item why are fires important: fires are bad, but if we can stop them early, then they are less bad
+\item inference vs prediction (we are doing inference)
+\item why is inference better for this problem
+\item this paper is organized as follows
+
+\end{itemize}
+
+\section{Background}
+
+\begin{itemize}
+
+\item summary of reference paper
+\item how data was collected
+\item goal
+\item restate prediction problem
+
+\end{itemize}
+
+\section{Modeling/Analysis}
+
+\subsection{Exploratory Data Analysis}
+
+\begin{itemize}
+
+\item initial ideas: what should matter, types of covariates (spatial, temporal, index)
+\item first plots
+\item identify problems (colinearity, skewness)
+
+\end{itemize}
+
+\subsection{Feature Design}
+
+\begin{itemize}
+
+\item transformations
+\item creations
+
+\end{itemize}
+
+\subsection{Variable Selection}
+
+\begin{itemize}
+
+\item FFMC
+\item LASSO
+\item tradeoff between interpretability for inference vs prediction
+\item creation of competing models - with and without FFMC
+\item spatial data - what we have, how we condensed it, variables we made, plots we used including google maps
+
+\end{itemize}
+
+\subsection{Modeling}
+
+\begin{itemize}
+
+\item types of model we considered: weighted, mixed intercept, good ol lm
+\item someone please bootstrap something
+\item best 2 models
+\item model comparison
+\item our choice and why
+
+\end{itemize}
+
+\section{Prediction}
+
+\begin{itemize}
+
+\item apply best model to test set
+\item report diagnostics
+\item report p-values
+\item MSE or some loss function
+\item final inferences
+
+\end{itemize}
+
+\section{Discussion}
+
+\section{Appendix}
+
+
+\end{document}
