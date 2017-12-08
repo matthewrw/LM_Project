@@ -112,7 +112,7 @@ fires$wetness<-wetness
 fires$rainvnorain<-rainvnorain
 
 #clean data so we only have columns we need
-fullData<-fires[c("ISI", "DMC", "DC", "temp", "RH", "wind", "wkd", "wkdM", 
+fullData<-fires[c("ISI", "FFMC", "DMC", "DC", "temp", "RH", "wind", "wkd", "wkdM", 
                   "summer", "areaTrans", "FFMCQuantile", "wetness", "rainvnorain", "forest_ind", "grid_group")]
 #create train data 
 set.seed(575)
@@ -121,5 +121,5 @@ train<- fullData[train.ind, ]
 test <- fullData[-train.ind, ]
 
 #save the data:
-write.csv(test, "/Users/kkung/Documents/GitHub/LM_Project/data/test.csv")
-write.csv(train, "/Users/kkung/Documents/GitHub/LM_Project/data/train.csv")
+write.csv(test, "/Users/kkung/Documents/GitHub/LM_Project/data/test.csv", row.names=FALSE)
+write.csv(train, "/Users/kkung/Documents/GitHub/LM_Project/data/train.csv", row.names=FALSE)
