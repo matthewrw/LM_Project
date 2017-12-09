@@ -92,15 +92,70 @@ The algorithm was written under the belief that your neighbors are most similar 
 
 \section{Prediction}\label{Prediction}
 
-\begin{itemize}
+%\begin{itemize}
+%\item apply best model to test set
+%\item report diagnostics
+%\item report p-values
+%\item MSE or some loss function
+%\item final inferences
+%\end{itemize}
 
-\item apply best model to test set
-\item report diagnostics
-\item report p-values
-\item MSE or some loss function
-\item final inferences
+Finally, we turn our attention to  evaluating the weather only based model by using the holdout set.  We begin by fitting the chosen model for on the test set data, which comprises 30\% of the original data set. These estimates are reported in table \ref{Parameter Estimates}.  
 
-\end{itemize}
+\begin{table}
+\centering
+\begin{tabular}{ | l | c | c |}\hline
+  Variable & Estimate & Standard Error \\ \hline
+  Intercept & 1.31 & 0.24 \\
+  Is Summer & 0.58 & 0.16 \\
+  Wind & 0.079 & 0.029 \\
+  Temperature & 0.045 & 0.012 \\
+  Is Raining & -0.26 &   0.47 \\
+  \hline
+\end{tabular}
+\caption{Final Parameter Estimates}
+\label{Parameter Estimates}
+\end{table}
+
+
+As previously noted, the estimates from normal theory are close to the estimates from a bootstrap, so the 95\% confidence intervals are reported based assuming normal errors:
+\begin{table}
+\centering
+\begin{tabular}{  | l | c | }\hline
+  Variable & $95\%$  Confidence Interval \\ \hline
+  Intercept & $(  0.84,1.79  )$ \\
+  Is Summer & $( 0.26,0.90   )$\\
+  Wind & $(  0.02,0.14  )$ \\
+  Temperature & $(  0.02,0.07  )$ \\
+  Is Raining & $(  -1.19,0.67  )$ \\
+  \hline
+\end{tabular}
+\caption{Final Confidence Intervals}
+\label{Confidence Intervals}
+\end{table}
+All the confidence intervals except for the binary Is Raining variable do not contain zero, so we conclude that they are all different than zero.
+However, the Is Raining confidence interval does contain zero, so we do not conclude that the Is Raining variable is significantly different than zero.  We also note that the confidence interval is quite wide and there is a large standard error because there were only two data points with rain in the test set. While rain was uncommon in the training set, it was less sparse than in the test set, so it is difficult to make inference on such a variable. 
+%Fix Up Graphics Path
+%\begin{figure}
+%\centering
+%\includegraphics{TestSetFittedVsActual.pdf}
+%\caption{Test Set Predicted vs Actual ISI}
+%\label{TestSetPredictedVsActual}
+%\end{figure}
+By considering the predicted ISI values, the mean squared error was calculated to be $13.3$. 
+%Fix Up Graphics Path
+%\begin{figure}
+%\centering
+%\includegraphics{FinalModelDiagnostics.pdf}
+%\caption{Test Set Diagnostics}
+%\label{FinalModelDiagnostics}
+%\end{figure}
+
+
+The analysis on the test set mostly confirms the model selection performed on the training set, with the key difference being the loss of significance for the Is Raining variable.  We conclude that all weather variables except for rain impact the ISI, and fail to conclude that the presence of rain is a predictor for the model. The predictions from the model are reasonably close to the actual data based on an MSE criterion. 
+
+
+
 
 \section{Discussion}\label{Discussion}
 
