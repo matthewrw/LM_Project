@@ -25,8 +25,8 @@ train$tFFMC = as.factor(train$tFFMC)
 
 #No FFMC model
 m1 = lm(sqISI ~ summer + wind + temp + rainvnorain 
-        #,data = train[-89,])
-       ,data = train)
+        ,data = train[-89,])
+       #,data = train)
 par(mfrow = c(2,2));plot(m1)
 car::avPlots(m1)
 summary(m1)
@@ -127,6 +127,19 @@ qqnorm(ResidualBootstrapM1[,2, drop=FALSE]) # wind
 qqnorm(ResidualBootstrapM1[,3, drop=FALSE]) # temp
 qqnorm(ResidualBootstrapM1[,4, drop=FALSE]) # rainvnorain
 
+#look at beta distributions
+par(mfrow=c(2,2))
+hist(ResidualBootstrapM1[,1], xlab = "summer")
+hist(ResidualBootstrapM1[,2], xlab ="wind")
+hist(ResidualBootstrapM1[,3], xlab ="temp")
+hist(ResidualBootstrapM1[,4], xlab ="rainvnorain")
+
+#assuming normality of errors
+confint(m1)
+#empirical CI 
+t(apply(ResidualBootstrapM1, 2, quantile, c(.025, .975)))
+
+
 ResidualBootstrapM2 <-t( replicate(B, {
   yb <- fitted(m2) + resid(m2)[sample.int(nrow(train2[-89,]), replace = TRUE)]
   boot <- model.matrix(m2)
@@ -137,6 +150,18 @@ qqnorm(ResidualBootstrapM2[,1, drop=FALSE]) # summer
 qqnorm(ResidualBootstrapM2[,2, drop=FALSE]) # wind 
 qqnorm(ResidualBootstrapM2[,3, drop=FALSE]) # temp
 qqnorm(ResidualBootstrapM2[,4, drop=FALSE]) # rainvnorain
+
+#look at beta distributions
+par(mfrow=c(2,2))
+hist(ResidualBootstrapM2[,1], xlab = "summer")
+hist(ResidualBootstrapM2[,2], xlab ="wind")
+hist(ResidualBootstrapM2[,3], xlab ="temp")
+hist(ResidualBootstrapM2[,4], xlab ="rainvnorain")
+
+#assuming normality of errors
+confint(m2)
+#empirical CI 
+t(apply(ResidualBootstrapM2, 2, quantile, c(.025, .975)))
 
 ResidualBootstrapM3 <-t( replicate(B, {
   yb <- fitted(m3) + resid(m3)[sample.int(nrow(train[-89,]), replace = TRUE)]
@@ -149,3 +174,19 @@ qqnorm(ResidualBootstrapM3[,2, drop=FALSE]) # wind
 qqnorm(ResidualBootstrapM3[,3, drop=FALSE]) # temp
 qqnorm(ResidualBootstrapM3[,4, drop=FALSE]) # rainvnorrain
 qqnorm(ResidualBootstrapM3[,5, drop=FALSE]) # tFFMC
+
+#look at beta distributions
+par(mfrow=c(3,2))
+hist(ResidualBootstrapM2[,1], xlab = "summer")
+hist(ResidualBootstrapM2[,2], xlab ="wind")
+hist(ResidualBootstrapM2[,3], xlab ="temp")
+hist(ResidualBootstrapM2[,4], xlab ="rainvnorain")
+hist(ResidualBootstrapM2[,5], xlab ="tFFMC")
+
+#assuming normality of errors
+confint(m3)
+#empirical CI 
+t(apply(ResidualBootstrapM3, 2, quantile, c(.025, .975)))
+
+
+
