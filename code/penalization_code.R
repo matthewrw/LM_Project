@@ -14,6 +14,7 @@ train$lgISI = log(train$ISI + 1)
 
 #transform FFMC 
 train$tFFMC = log(max(train$FFMC) - train$FFMC + 1)
+train$tFFMC = ifelse(train$FFMC<mean(train$FFMC) - 2*sd(train$FFMC), 0, 1)
 train$tFFMC = ifelse(train$FFMC<80, 0, 1)
 
 #cast as factors 
@@ -136,8 +137,8 @@ step(null, scope = list(lower = null, upper = full)
 #Weighted based on FFMC uneven groupings
 gp1 = which(train$FFMC<80)
 #gp3 = which(80<= train$FFMC & train$FFMC <90)
-gp4 = which(80<= train$FFMC & train$FFMC < 95)
-gp5 = which(95<= train$FFMC)
+gp4 = which(80<= train$FFMC & train$FFMC < 83)
+gp5 = which(85<= train$FFMC)
 
 train[gp1, "weight"] = length(gp1)
 #train[gp2, "weight"] = length(gp2)
@@ -158,8 +159,8 @@ m = lm(sqISI ~
        ,data = train[-89,])
 
 par(mfrow = c(2,2));plot(m)
-MASS::boxcox(m)
-
+car::avPlots(m)
+summary(m)
 #Weighted based on spatial locations
 library(dplyr)
 train = data.frame(train %>% group_by(ra) %>% mutate(weight = n()))
@@ -202,9 +203,7 @@ summary(m)
 
 #Weighted based on tFFMC
 train = data.frame(train %>% group_by(tFFMC) %>% mutate(weight = n()))
-
-#see new_spatial_data.R for the X2 and Y2 variables
-m = lm(sqISI ~
+m = lm(lgISI ~
          summer
        + wind 
        + temp
@@ -214,7 +213,25 @@ m = lm(sqISI ~
        #+ grid_group
        #+ forest_ind
        ,weights = weight
-       ,data = train[-89,])
+       ,data = train)
+par(mfrow = c(2,2));plot(m)
+car::avPlots(m)
+summary(m)
+
+
+#Weighted based on tFFMC
+lgtrain = data.frame(train %>% group_by(tFFMC) %>% mutate(weight = n()))
+m = lm(lgISI ~
+         summer
+       + wind 
+       + temp
+       #+ rainvnorain 
+       #+ tFFMC
+       #+ DMC
+       #+ grid_group
+       #+ forest_ind
+       ,weights = weight
+       ,data = lgtrain)
 par(mfrow = c(2,2));plot(m)
 car::avPlots(m)
 summary(m)
