@@ -145,6 +145,7 @@ ResidualBootstrapM3 <-t( replicate(B, {
 }))
 #qqnorm(ResidualBootstrapM3[,1, drop=FALSE]) # intercept
 qqnorm(ResidualBootstrapM3[,1, drop=FALSE]) # summer
-qqnorm(ResidualBootstrapM3[,2, drop=FALSE]) # wind 
+qqnorm(ResidualBootstrapM3[,2, drop=FALSE]) # wind
 qqnorm(ResidualBootstrapM3[,3, drop=FALSE]) # temp
-qqnorm(ResidualBootstrapM3[,4, drop=FALSE]) # tFFMC
+qqnorm(ResidualBootstrapM3[,4, drop=FALSE]) # rainvnorrain
+qqnorm(ResidualBootstrapM3[,5, drop=FALSE]) # tFFMC
