@@ -63,6 +63,7 @@ summary(m3)
 #--------------------------------------------
 # Bootstrapping
 # Citation https://www.statmethods.net/advstats/bootstrapping.html
+# Citation Solution to Homework 7
 #--------------------------------------------
 library(boot)
 
@@ -77,7 +78,8 @@ betaStat <- function(formula, data, indices) { # private function for boot to ge
   dfBoot <- data[indices,] # allows boot to select sample 
   fit <- lm(formula, data=dfBoot) # fit the model based on bootstrapped records
   return(coef(fit)) # get coeficients
-} 
+}
+
 
 # residual bootstraps
 resultsM1 <- boot(data=train[-89,], statistic=residualStat, R=200, formula= sqISI ~ summer + wind + temp + rainvnorain)
@@ -110,3 +112,40 @@ plot(resultsM3B, index=3) # wind
 plot(resultsM3B, index=4) # temp 
 plot(resultsM3B, index=5) # rainvnorain
 plot(resultsM3B, index=6) # tFFMC
+
+
+
+B <- 1000
+ResidualBootstrapM1 <-t( replicate(B, {
+  yb <- fitted(m1) + resid(m1)[sample.int(nrow(train[-89,]), replace = TRUE)]
+  boot <- model.matrix(m1)
+  coef(lm(yb ~ boot - 1))
+}))
+#qqnorm(ResidualBootstrapM1[,1, drop=FALSE]) # intercept
+qqnorm(ResidualBootstrapM1[,1, drop=FALSE]) # summer
+qqnorm(ResidualBootstrapM1[,2, drop=FALSE]) # wind 
+qqnorm(ResidualBootstrapM1[,3, drop=FALSE]) # temp
+qqnorm(ResidualBootstrapM1[,4, drop=FALSE]) # rainvnorain
+
+ResidualBootstrapM2 <-t( replicate(B, {
+  yb <- fitted(m2) + resid(m2)[sample.int(nrow(train2[-89,]), replace = TRUE)]
+  boot <- model.matrix(m2)
+  coef(lm(yb ~ boot-1))
+}))
+#qqnorm(ResidualBootstrapM2[,1, drop=FALSE]) # intercept
+qqnorm(ResidualBootstrapM2[,1, drop=FALSE]) # summer
+qqnorm(ResidualBootstrapM2[,2, drop=FALSE]) # wind 
+qqnorm(ResidualBootstrapM2[,3, drop=FALSE]) # temp
+qqnorm(ResidualBootstrapM2[,4, drop=FALSE]) # rainvnorain
+
+ResidualBootstrapM3 <-t( replicate(B, {
+  yb <- fitted(m3) + resid(m3)[sample.int(nrow(train[-89,]), replace = TRUE)]
+  boot <- model.matrix(m3)
+  coef(lm(yb ~ boot - 1))
+}))
+#qqnorm(ResidualBootstrapM3[,1, drop=FALSE]) # intercept
+qqnorm(ResidualBootstrapM3[,1, drop=FALSE]) # summer
+qqnorm(ResidualBootstrapM3[,2, drop=FALSE]) # wind
+qqnorm(ResidualBootstrapM3[,3, drop=FALSE]) # temp
+qqnorm(ResidualBootstrapM3[,4, drop=FALSE]) # rainvnorrain
+qqnorm(ResidualBootstrapM3[,5, drop=FALSE]) # tFFMC
