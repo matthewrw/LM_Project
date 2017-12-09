@@ -23,11 +23,14 @@
 \item why are fires important: fires are bad, but if we can stop them early, then they are less bad
 \item inference vs prediction (we are doing inference)
 \item why is inference better for this problem
-\item this paper is organized as follows
+
+
+
+This paper is organized as follows. In Section \ref{Background} we give a summary of our reference paper and restate our goal in this context. In Section \ref{Analysis} we outline our analysis, including our initial exploration of the data, all feature engineering and variable selection, and our final modeling decisions. In Section \ref{Prediction}, we apply our final model to our holdout set in order to make unbiased inferences. We conclude our project in Section \ref{Discussion} with a discussion of our project. Finally, relevant code may be found in the attached Appendix.
 
 \end{itemize}
 
-\section{Background}
+\section{Background}\label{Background}
 
 \begin{itemize}
 
@@ -38,7 +41,7 @@
 
 \end{itemize}
 
-\section{Modeling/Analysis}
+\section{Modeling/Analysis}\label{Analysis}
 
 \subsection{Exploratory Data Analysis}
 
@@ -50,7 +53,7 @@
 
 \end{itemize}
 
-\subsection{Feature Design}
+\subsection{Feature Design}\label{Engineering}
 
 \begin{itemize}
 
@@ -74,7 +77,7 @@ The algorithm was written under the belief that your neighbors are most similar 
 \item LASSO
 \item tradeoff between interpretability for inference vs prediction
 \item creation of competing models - with and without FFMC
-\item The three engineered geo-spatial features from Section \#\#\# were all considered as covariates. Unfortunately, none were selected during variable selection, as LASSO zeroed their coefficients are they were not significant under further scrutiny. However, we firmly believed that there should be signal from these geo-spatial features. Our next attempt was to fit a Mixed Model with $\textit{grid\_group}$ or $X2:Y2$ as the random intercepts. Again, this did not provide an improvement. Similarly, we tried weighting by the number of fires in $\textit{grid\_group}$ and $X2:Y2$ to no avail. We concluded that without further refinement or data collection, all of the geo-spatial signal was being picked up by the class of climate features, and therefore $X$, $Y$, and the derivative variables were discarded for our final model.
+\item The three engineered geo-spatial features from Section \ref{Engineering} were all considered as covariates. Unfortunately, none were selected during variable selection, as LASSO zeroed their coefficients are they were not significant under further scrutiny. However, we firmly believed that there should be signal from these geo-spatial features. Our next attempt was to fit a Mixed Model with $\textit{grid\_group}$ or $X2:Y2$ as the random intercepts. Again, this did not provide an improvement. Similarly, we tried weighting by the number of fires in $\textit{grid\_group}$ and $X2:Y2$ to no avail. We concluded that without further refinement or data collection, all of the geo-spatial signal was being picked up by the class of climate features, and therefore $X$, $Y$, and the derivative variables were discarded for our final model.
 
 \end{itemize}
 
@@ -90,7 +93,7 @@ The algorithm was written under the belief that your neighbors are most similar 
 
 \end{itemize}
 
-\section{Prediction}
+\section{Prediction}\label{Prediction}
 
 \begin{itemize}
 
@@ -102,7 +105,7 @@ The algorithm was written under the belief that your neighbors are most similar 
 
 \end{itemize}
 
-\section{Discussion}
+\section{Discussion}\label{Discussion}
 
 \section{Appendix}
 
