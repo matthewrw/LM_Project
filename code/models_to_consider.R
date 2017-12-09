@@ -20,6 +20,7 @@ train$wkd = as.factor(train$wkd)
 train$summer = as.factor(train$summer)
 train$rainvnorain = as.factor(train$rainvnorain)
 train$grid_group = as.factor(train$grid_group)
+train$tFFMC = as.factor(train$tFFMC)
 
 
 #No FFMC model

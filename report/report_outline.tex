@@ -1,4 +1,14 @@
 \documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{bbm}
+\usepackage{biblatex}
+\addbibresource{references.bib}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\usepackage[margin=1in]{geometry}
+\parskip = 0.1in
+
 \begin{document}
 
 \begin{abstract}
@@ -22,7 +32,7 @@
 \begin{itemize}
 
 \item summary of reference paper
-\item how data was collected
+\item how data were collected
 \item goal
 \item restate prediction problem
 
@@ -46,6 +56,13 @@
 
 \item transformations
 \item creations
+\item One interesting feature class in this problem is geo-spatial. The raw data contains $X$ and $Y$ coordinates corresponding to a grid that has been overlaid on the map of Monteshino Natural Park. Each coordinate ranges from 1 to 9, therefore there are 81 total boxes in the grid. Of course, the first attempts at capturing any geo-spatial signal involved looking at the raw $X$ and $Y$ coordinates, as well as their interaction. Unfortunately, many of these boxes were sparse and the 81 degrees of freedom necessary for the raw grid were detrimental to the modeling process. Instead, we designed several features based on these values. This resulted in three candidate features. First, we created new coordinates $X2$ and $Y2$ that were created from the following algorithm
+\begin{align*}
+1&. \text{ sum the first row, last row, first column, last column} \\
+2&. \text{ combine the row or column with the lowest sum with its neighboring row or column} \\
+3&. \text{ repeat steps 1 and 2 until every box contains at least 1\% of the data}
+\end{align*}
+The algorithm was written under the belief that your neighbors are most similar to you and therefore should be the first candidates when grouping spaces together. Applying this algorithm, we reduced the number of boxes from 81 to 12. We note that $Y2$ only has two levels, which is unsurprising since Monteshino Natural Park is wider than it is tall. The other two engineered features integrated outside information. For these, we found a topographical map of Monteshino Natural Park on Google Maps and overlaid the original $X-Y$ grid.  The result is Picture \#\#\#. From this, we created $\textit{forest\_ind}$, which is a binary variable that takes the value 1 when the box is mostly covered in trees and 0 otherwise, and $\textit{grid\_group}$, which identifies five major mountain ranges and groups the boxes that cluster around these mountain ranges. Both of these variables are intuitively appealing, since obviously a forest fire needs trees and generally travelers hike and camp on a single mountain range.
 
 \end{itemize}
 
@@ -57,7 +74,7 @@
 \item LASSO
 \item tradeoff between interpretability for inference vs prediction
 \item creation of competing models - with and without FFMC
-\item spatial data - what we have, how we condensed it, variables we made, plots we used including google maps
+\item The three engineered geo-spatial features from Section \#\#\# were all considered as covariates. Unfortunately, none were selected during variable selection, as LASSO zeroed their coefficients are they were not significant under further scrutiny. However, we firmly believed that there should be signal from these geo-spatial features. Our next attempt was to fit a Mixed Model with $\textit{grid\_group}$ or $X2:Y2$ as the random intercepts. Again, this did not provide an improvement. Similarly, we tried weighting by the number of fires in $\textit{grid\_group}$ and $X2:Y2$ to no avail. We concluded that without further refinement or data collection, all of the geo-spatial signal was being picked up by the class of climate features, and therefore $X$, $Y$, and the derivative variables were discarded for our final model.
 
 \end{itemize}
 
