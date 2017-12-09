@@ -16,6 +16,7 @@ train$lgISI = log(train$ISI + 1)
 train$tFFMC = log(max(train$FFMC) - train$FFMC + 1)
 train$tFFMC = ifelse(train$FFMC<mean(train$FFMC) - 2*sd(train$FFMC), 0, 1)
 train$tFFMC = ifelse(train$FFMC<80, 0, 1)
+train$tFFMC = as.factor(train$tFFMC)
 
 #cast as factors 
 train$wkd = as.factor(train$wkd)
@@ -27,7 +28,7 @@ train$grid_group = as.factor(train$grid_group)
 train$month = as.factor(train$month)
 train$day = as.factor(train$day)
 train$X = as.factor(train$X)
-train$Y = as.factor(train$Y)
+train$Y = as.factor(train$Y) 
 
 #---------------------------------------
 #
@@ -235,4 +236,32 @@ m = lm(lgISI ~
 par(mfrow = c(2,2));plot(m)
 car::avPlots(m)
 summary(m)
+#-------------------------------------------------------------------
+#
+#         Random intercept model(s) 
+#
+#-------------------------------------------------------------------
+
+train[train$X2 == 2 & train$Y2 == 4, "region"] = 1
+train[train$X2 == 3 & train$Y2==4, "region"] = 2
+train[train$X2 == 4 & train$Y2==4, "region"] = 3
+train[train$X2 == 5 & train$Y2==4, "region"] = 4
+train[train$X2 == 6 & train$Y2==4, "region"] = 5
+train[train$X2 == 7 & train$Y2==4, "region"] = 6
+
+train[train$X2 == 2 & train$Y2==5, "region"] = 7
+train[train$X2 == 3 & train$Y2==5, "region"] = 8
+train[train$X2 == 4 & train$Y2==5, "region"] = 9
+train[train$X2 == 5 & train$Y2==5, "region"] = 10
+train[train$X2 == 6 & train$Y2==5, "region"] = 11
+train[train$X2 == 7 & train$Y2==5, "region"] = 12
+
+train$region = as.factor(train$region)
+
+
+ris_model = lme(sqISI ~ summer + wind + temp + rainvnorain + tFFMC
+                ,random=~1|region
+                , data =  train[-89,]
+                , method = "REML")
+
 
