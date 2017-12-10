@@ -31,7 +31,11 @@ This paper is organized as follows. In Section \ref{Background} we give a summar
 
 \begin{itemize}
 
-\item summary of reference paper
+The subject of modeling forest fires has been well studied. In the reference paper provided, Paulo Cortez and Anibal Morais explored the potential of machine learning algorithms in predicting area burned by wildfires (TODO ADD CITATION). They compared support vector machines, decision trees, multiple linear regression, neural networks, random forests and a naive mean prediction with four sets of features. Cortez and Morais found that support vector machines had the overall best success in predicting area burned. Their proposed solution is an SVM using as input a combination of temperature, rain, relative humidity and wind speed.
+
+Further, we looked into the history of the Canadian Forest Fire Weather Index (FWI). Specifically, Van Wagner 1987 (TODO ADD CITATION) details the development of and equations used in the FWI system. Van Wagner specified that $$ISI =  0.208(2^{WIND/19})(91.9e^{-.1386FFMC})(1+FFMC^{5.31}/(4.93*10^7))$$
+However, in our initial assessment of this equation, we considered it cheating to use it directly in our models. Further, we consider innovation to be a goal in this paper. So we attempted not to let knowledge of the equation influence our models.
+
 \item how data were collected
 \item goal
 \item restate prediction problem
