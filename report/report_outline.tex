@@ -160,12 +160,12 @@ However, the Is Raining confidence interval does contain zero, so we do not conc
 \end{figure}
 By considering the predicted ISI values, the mean squared error was calculated to be $13.3$. 
 %Fix Up Graphics Path
-%\begin{figure}
-%\centering
-%\includegraphics{FinalModelDiagnostics.pdf}
-%\caption{Test Set Diagnostics}
-%\label{FinalModelDiagnostics}
-%\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width = \textwidth]{TestSetDiagnostics.pdf}
+\caption{Test Set Diagnostics}
+\label{FinalModelDiagnostics}
+\end{figure}
 
 
 The analysis on the test set mostly confirms the model selection performed on the training set, with the key difference being the loss of significance for the Is Raining variable.  We conclude that all weather variables except for rain impact the ISI, and fail to conclude that the presence of rain is a predictor for the model. The predictions from the model are reasonably close to the actual data based on an MSE criterion. 
