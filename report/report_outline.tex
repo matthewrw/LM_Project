@@ -7,6 +7,7 @@
 \addbibresource{references.bib}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \usepackage[margin=1in]{geometry}
+\graphicspath{ {report_figures/} }
 \parskip = 0.1in
 
 \begin{document}
@@ -23,19 +24,20 @@ Forest fires ravage entire ecosystems and have lasting consequences on the envir
 
 To accomplish this goal, we examine Initial Spread Index (ISI) as our response variable from data obtained in Monteshino Natural Park between 2000 and 2003. It is worth emphasizing that our target is not forest fire occurrences. This subtle difference goes against our intuition. For example, regarding the presence of people, we expect that the number of fires increases with the presence of people. On the other hand, more people means earlier detection. Therefore, we have no $\textit{a priori}$  knowledge of the relationship between people and ISI. This difficulty extends to other variables such as rain and wind, in which different arguments could be made to explain different possible relationship with ISI.
 
-Our analysis takes a standard approach by first splitting our data into training and testing sets, then performing feature engineering and variable selection on our training set, fitting our various models, and finally evaluating these models on our testing set. While we do make predictions on the test set, our focus is on making statistically significant inferential conclusions. Therefore, we avoid using overly complicated transformations, and when faced with competing models, we select the simpler version. We understand that this may result in a sub-optimal predictive model, but our goal is to obtain interpretable coefficients and generalizable results. We chose this inferential approach because we believe the first step to combatting forest fires is understanding how they initially spread, and without an understanding, what good is a highly predictive model? Naturally we want to understand the likely causes of forest fires with a high ISI, of which we explore variables related to climate, time, location, and people.
+Our analysis takes a standard approach by first splitting our data into training and testing sets, then performing feature engineering and variable selection on our training set, fitting our various models, and finally evaluating these models on our testing set. While we do make predictions on the test set, our focus is on making statistically significant inferential conclusions. Therefore, we avoid using overly complicated transformations, and when faced with competing models, we select the simpler version. We understand that this may result in a sub-optimal predictive model, but our goal is to obtain interpretable coefficients and generalizable results. We chose this inferential approach because we believe the first step to combating forest fires is understanding how they initially spread, and without an understanding, what good is a highly predictive model? Naturally we want to understand the likely causes of forest fires with a high ISI, of which we explore variables related to climate, time, location, and people.
 
 This paper is organized as follows. In Section \ref{Background} we give a summary of our reference paper and restate our goal in this context. In Section \ref{Analysis} we outline our analysis, including our initial exploration of the data, all feature engineering and variable selection, and our final modeling decisions. In Section \ref{Prediction}, we apply our final model to our holdout set in order to make unbiased inferences. We conclude our project in Section \ref{Discussion} with a general discussion of our results. Finally, relevant R code may be found in the attached Appendix.
 
 \section{Background}\label{Background}
 
-\begin{itemize}
+
 
 The subject of modeling forest fires has been well studied. In the reference paper provided, Paulo Cortez and Anibal Morais explored the potential of machine learning algorithms in predicting area burned by wildfires (TODO ADD CITATION). They compared support vector machines, decision trees, multiple linear regression, neural networks, random forests and a naive mean prediction with four sets of features. Cortez and Morais found that support vector machines had the overall best success in predicting area burned. Their proposed solution is an SVM using as input a combination of temperature, rain, relative humidity and wind speed.
 
 Further, we looked into the history of the Canadian Forest Fire Weather Index (FWI). Specifically, Van Wagner 1987 (TODO ADD CITATION) details the development of and equations used in the FWI system. Van Wagner specified that $$ISI =  0.208(2^{WIND/19})(91.9e^{-.1386FFMC})(1+FFMC^{5.31}/(4.93*10^7))$$
 However, in our initial assessment of this equation, we considered it cheating to use it directly in our models. Further, we consider innovation to be a goal in this paper. So we attempted not to let knowledge of the equation influence our models.
 
+\begin{itemize}
 \item how data were collected
 \item goal
 \item restate prediction problem
@@ -49,6 +51,21 @@ However, in our initial assessment of this equation, we considered it cheating t
 \begin{itemize}
 
 \item initial ideas: what should matter, types of covariates (spatial, temporal, index)
+
+ISI attempts to quantity the risk associated with the initial spread of a forest fire. Heuristically, we expect variables that describe the weather characteristics of Monteshino Natural Park as well as the terrain within the park to affect the initial spread of a newly sparked forest fire. While we do not know how ISI is calculated, we surmise that these characteristics should play a major role in our modeling procedure. While we expect that these two classes of data should be sufficient in modeling ISI, there is a third, far more subtle, factor that we need to consider. First consider Figure \ref{fig:human_factor}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.45\textwidth]{day_bar.pdf}
+\includegraphics[width=0.45\textwidth]{month_bar.pdf}
+\caption{}
+\label{fig:human_factor}{}
+\end{figure}
+Based on these figures, it appears that fires are far more likely to occur in late summer and on the weekends. While the abundance of fires occurring in summer may be attributable to climatic changes, we suspect that the imbalance of fires on the weekend must be connected in some way to the presence of more visitors to the park. While we do not have direct data on the number of individuals in the park on any given day, we expect that this variable greatly affects the way in which \textit{the data was collected}. It seems reasonable to assume visitors to the park were either responsible for reporting the presence of a fire or starting the fires themselves. Therefore, when more visitors are in the park, we expect the response time to a fire to decrease, and the initial spread of the fire to decrease as well. Therefore, while we expect visitors to have no affect on how fast fires spread, due to the nature in which the data was collected, we include variables that model human presence.   
+
+With this in mind, we were able to categorize our variable set into the following categories. 
+
+
+
 \par The ISI is an index that reflects the initial spread of a fire and is calculated using the Fine Fuel Moisture Code (FFMC) and the wind speed (cite) (talk about figure?). Because of this, the FFMC and wind variables should be important predictors. Looking at the plots (add plots) of these variables against ISI, there is clearly a relationship between ISI and FFMC. The relationship is not as clear between ISI and wind speed. In addition to these variables, we also believe that there are temporal factors that affect ISI. [what do we want to say about this..? because looking at the boxplot, it seems that weekdays are actually higher in ISI]. In particular, we believe that the summer months are important because it is dryer, which allows for fires to spread easily, and people are more likely to go to the forest and may cause accidental forest fires. For the same latter reason, we believe that weekends will also be a good indicator of ISI. Furthermore, because the spread of a fire depends on the terrain of the land, it is reasonable to believe that spatial factors will have a great influence on ISI. Areas that are further away from populated areas and that have more trees should have a higher ISI because it would take a longer time for the fires to be detected and the trees will provide fuel for the fire. 
 \item first plots
 \item identify problems (colinearity, skewness)
