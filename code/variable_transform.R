@@ -15,8 +15,6 @@ fires<-read.csv("forestfires.csv")
 # rainvnorain = rain indicator: 1 if not equal to 0
 # wetness = wetness calculated using RH and temp 
 
-# firesNoOut = data without the outlier #23
-# full data = data with only the columns we want, without the outlier
 # train = training data from the full data
 # test = testing data from the full data
 # forest_ind = indicator for forests 
@@ -118,5 +116,6 @@ train<- fires[train.ind, ]
 test <- fires[-train.ind, ]
 
 #save the data:
+write.csv(fires, "/Users/kkung/Documents/GitHub/LM_Project/data/full_data_with_covariates", row.names=FALSE)
 write.csv(test, "/Users/kkung/Documents/GitHub/LM_Project/data/test.csv", row.names=FALSE)
 write.csv(train, "/Users/kkung/Documents/GitHub/LM_Project/data/train.csv", row.names=FALSE)
