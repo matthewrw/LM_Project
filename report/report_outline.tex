@@ -45,6 +45,7 @@ This paper is organized as follows. In Section \ref{Background} we give a summar
 \begin{itemize}
 
 \item initial ideas: what should matter, types of covariates (spatial, temporal, index)
+\par The ISI is an index that reflects the initial spread of a fire and is calculated using the Fine Fuel Moisture Code (FFMC) and the wind speed (cite) (talk about figure?). Because of this, the FFMC and wind variables should be important predictors. Looking at the plots (add plots) of these variables against ISI, there is clearly a relationship between ISI and FFMC. The relationship is not as clear between ISI and wind speed. In addition to these variables, we also believe that there are temporal factors that affect ISI. [what do we want to say about this..? because looking at the boxplot, it seems that weekdays are actually higher in ISI]. In particular, we believe that the summer months are important because it is dryer, which allows for fires to spread easily, and people are more likely to go to the forest and may cause accidental forest fires. For the same latter reason, we believe that weekends will also be a good indicator of ISI. Furthermore, because the spread of a fire depends on the terrain of the land, it is reasonable to believe that spatial factors will have a great influence on ISI. Areas that are further away from populated areas and that have more trees should have a higher ISI because it would take a longer time for the fires to be detected and the trees will provide fuel for the fire. 
 \item first plots
 \item identify problems (colinearity, skewness)
 
@@ -55,7 +56,11 @@ This paper is organized as follows. In Section \ref{Background} we give a summar
 \begin{itemize}
 
 \item transformations
+\par
+(should we add some plots) We transformed several covariate in order to get the most information out of the variables based on our intuition and on our initial look of the data set. According to Cortez and Morais (2007), the area variable was transformed using $y = ln(area + 1)$ because it is highly concentrated around zero (lower than $100m^2$ burned) and right skewed. We did the same transformation for the area variable in our data set. Similar to area, the rain variable is also concentrated around zero and right skewed. However, instead of using $\textit{ln}$, we changed the variable into an indicator of whether there was rain in order to get the most out of the few data points that were not zero. We also grouped the FFMC index into 10\% quantiles because it was left skewed and had a majority of data points that were above 80. Month and day variables were transformed into indicators of summer and weekend, respectively because we believe that more fires occur during the summer due to the dryer season and on weekends because people are more likely to go to the park. An indicator of summer is 1 for the months of June, July, August, and September, which were chosen based on the climate of Portugal and looking at the number of data points. We created two weekend indicators -- one that includes Friday to Sunday and another that includes Friday to Monday. Monday was included because there may be some lag effects from people staying there all weekend. We determine which variable is more important during the variable selection phase. 
 \item creations
+\par
+In addition to transforming variables, we also created several new covariates. Using temperature and relative humidity, a wetness metric (cite?) was created because it affects the fire spread. (explain more of how this is created--ask Matthew). (Not sure if we want to include this part and/or combine with Nate's geo-spatial part). We also included a forest indicator which was manually created using a map of the Monteshino Natural Park and corresponding it with the grid of coordinates provided in the data. An indicator of 1 means that the cross-section of the coordinates contains a forest area. 
 \item One interesting feature class in this problem is geo-spatial. The raw data contains $X$ and $Y$ coordinates corresponding to a grid that has been overlaid on the map of Monteshino Natural Park. Each coordinate ranges from 1 to 9, therefore there are 81 total boxes in the grid. Of course, the first attempts at capturing any geo-spatial signal involved looking at the raw $X$ and $Y$ coordinates, as well as their interaction. Unfortunately, many of these boxes were sparse and the 81 degrees of freedom necessary for the raw grid were detrimental to the modeling process. Instead, we designed several features based on these values. This resulted in three candidate features. First, we created new coordinates $X2$ and $Y2$ that were created from the following algorithm
 \begin{align*}
 1&. \text{ sum the first row, last row, first column, last column} \\
@@ -71,6 +76,7 @@ The algorithm was written under the belief that your neighbors are most similar 
 \begin{itemize}
 
 \item FFMC
+(we can add the chart fig 1 from the paper to show that rain, rh, temp, and wind is included in ffmc)
 \item LASSO
 \item tradeoff between interpretability for inference vs prediction
 \item creation of competing models - with and without FFMC
