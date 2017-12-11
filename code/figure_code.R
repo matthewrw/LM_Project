@@ -68,5 +68,43 @@ plot_glmnet(fit1, ylim = c(0,.6))
 dev.off()
 
 
+train = data.frame(train %>% group_by(tFFMC) %>% mutate(weight = n()))
+m1 = lm(sqISI ~temp + wind + summer + rainvnorain, data = train)
+m2 = lm(sqISI ~temp + wind + summer + rainvnorain, weights = weight, data = train)
+m3 = lm(sqISI ~ temp + wind + summer + rainvnorain+tFFMC, data = train)
+df = data.frame(r1 = as.vector(qqnorm(resid(m1), plot=F)),r2 = as.vector(qqnorm(resid(m2), plot=F)),r3 = as.vector(qqnorm(resid(m3), plot=F)))
+
+library(gridExtra)
+library(grid)
+library(lattice)
+
+p5 <- ggplot(m1, aes(qqnorm(.stdresid)[[1]], .stdresid))+geom_point(na.rm = TRUE, col = "steelblue", alpha = 0.7)
+p5 <- p5+geom_abline()+xlab("Theoretical Quantiles")+ylab("Standardized Residuals")
+p5 <- p5+ggtitle("No FFMC")+theme_bw() + coord_cartesian(ylim = c(-3,3))
+
+p6 <- ggplot(m2, aes(qqnorm(.stdresid)[[1]], .stdresid))+geom_point(na.rm = TRUE, col = "steelblue", alpha = 0.7)
+p6 <- p6+geom_abline()+xlab("Theoretical Quantiles")+ylab("Standardized Residuals")
+p6 <- p6+ggtitle("Weighted FFMC")+theme_bw()+ coord_cartesian(ylim = c(-3,3))
+  
+p7 <- ggplot(m2, aes(qqnorm(.stdresid)[[1]], .stdresid))+geom_point(na.rm = TRUE, col = "steelblue", alpha = 0.7)
+p7 <- p7+geom_abline()+xlab("Theoretical Quantiles")+ylab("Standardized Residuals")
+p7 <- p7+ggtitle("Covariate FFMC")+theme_bw()+ coord_cartesian(ylim = c(-3,3))
+
+pdf("FFMC-QQ.pdf")
+grid.arrange(p5,p6,p7, nrow = 1, ncol = 3)
+dev.off()
+
+
+train = data.frame(train %>% group_by(tFFMC) %>% mutate(weight = n()))
+m = lm(lgISI ~summer+ wind + temp+ rainvnorain ,data = train)
+pdf("final_model_diag.pdf")
+par(mfrow = c(2,2));plot(m)
+dev.off()
+pdf("final_avp.pdf")
+car::avPlots(m)
+dev.off()
+summary(m)
+
+
 
 

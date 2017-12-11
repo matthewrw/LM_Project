@@ -247,9 +247,33 @@ plot(m_rand)
 qqnorm(m_rand$residuals)
 ```
 
-```{boot, echo=TRUE}
+```{r}
+#build final model
+m1 = lm(sqISI ~ summer + wind + temp + rainvnorain 
+        #,data = train[-89,])
+       ,data = train)
 
+#1000 boostrap samples for each \beta    
+B <- 1000
+ResidualBootstrapM1 <-t( replicate(B, {
+  #yb <- fitted(m1) + resid(m1)[sample.int(nrow(train[-89,]), replace = TRUE)]
+  yb <- fitted(m1) + resid(m1)[sample.int(nrow(train), replace = TRUE)]
+  boot <- model.matrix(m1)
+  coef(lm(yb ~ boot - 1))
+}))
+
+#look at beta distributions
+par(mfrow=c(2,2))
+hist(ResidualBootstrapM1[,1], xlab = "summer")
+hist(ResidualBootstrapM1[,2], xlab ="wind")
+hist(ResidualBootstrapM1[,3], xlab ="temp")
+hist(ResidualBootstrapM1[,4], xlab ="rainvnorain")
+
+#empirical CI 
+t(apply(ResidualBootstrapM1, 2, quantile, c(.025, .975)))
 ```
+
+
 
 ```{r pred, include=TRUE}
 

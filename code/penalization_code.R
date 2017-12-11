@@ -48,7 +48,7 @@ f = formula(sqISI ~
             #+ DC #6iteration
             #+ FFMC
             + temp 
-            #+ RH 
+            + RH 
             + wind 
             + wkd 
             #+ wkdM #4 iteration  
@@ -75,11 +75,18 @@ X = model.matrix(f,train)
 Y = as.matrix(train$sqISI)
 a = 1
 
+fit = glmnet::glmnet(X, Y, alpha = a)
+plot(fit, xvar = "lambda", label = TRUE)
+library(plotmo) 
+plot_glmnet(fit)
+
+
 cv = glmnet::cv.glmnet(X, Y, alpha = a)
 plot(cv)
 lambda_opt = cv$lambda.min
-
 lasso = glmnet::glmnet(X, Y, alpha = a, lambda = lambda_opt)
+
+
 tmp = sort(abs(coef(lasso)[,1]), decreasing = TRUE)
 varImp = data.frame(VarNames = names(tmp), Beta = round(as.vector(tmp),3))
 varImp
@@ -158,8 +165,9 @@ m = lm(sqISI ~
        #+ RH 
        #+ DMC
        #+ grid_group
-       #+ forest_ind
-       ,weights = weight
+       + forest_ind
+       + tFFMC
+       #,weights = weight
        ,data = train[-89,])
 
 par(mfrow = c(2,2));plot(m)
@@ -211,15 +219,15 @@ m = lm(lgISI ~
          summer
        + wind 
        + temp
-       #+ rainvnorain 
+       + rainvnorain 
        #+ tFFMC
        #+ DMC
        #+ grid_group
        #+ forest_ind
-       ,weights = weight
+       #,weights = weight
        ,data = train)
 par(mfrow = c(2,2));plot(m)
-car::avPlots(m)
+  car::avPlots(m)
 summary(m)
 
 
