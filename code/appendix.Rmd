@@ -1,5 +1,5 @@
 ---
-title: "Appendix"
+title: "Appendix 2"
 output: pdf_document
 ---
 
@@ -9,10 +9,11 @@ library(dplyr)
 library(glmnet)
 library(car)
 library(nlme)
+library(ggplot2)
 ```
 
 Load data. Group variables. Perform transformations.
-```{r data, include=TRUE}
+```{r data, echo=TRUE, results=FALSE}
 setwd("/Users/njosephs/Desktop/PhD/575/final project/")
 fires <- read.csv("forestfires.csv")
 
@@ -39,7 +40,8 @@ fires$rainvnorain <- rainvnorain
 
 # wetness metric
 rel_humid100_temp <- c(0, 5, 10, 15, 17, 19, 20, 22, 24, 26, 29, 32, 35)
-rel_humid100_water <- c(4.2, 5.74, 7.84, 10.7, 12.12, 13.73, 14.62, 16.56, 18.76, 21.25, 25.62, 30.89, 37.24)
+rel_humid100_water <- c(4.2, 5.74, 7.84, 10.7, 12.12, 13.73, 14.62, 16.56
+                        , 18.76, 21.25, 25.62, 30.89, 37.24)
 
 water_at_full <- approxfun(x = rel_humid100_temp, y = rel_humid100_water )
 est_wetness_metric <- function(Temp,rh){
@@ -68,7 +70,7 @@ for(i in 1:nrow(fires)){
 }
 
 # geo-spatial grid
-fires[, "grid_group"] <- "other"                      # default (other)
+fires[, "grid_group"] <- "other"                       # default (other)
 fires[fires$X %in% c(1, 2, 3) & 
         fires$Y %in% c(2, 3, 4), "grid_group"] <- "tl" # top left mountain
 fires[fires$X %in% c(3, 4, 5) & 
@@ -89,16 +91,16 @@ test <- fires[-train.ind, ]
 ```
 
 Create data-driven variables.
-```{r vars, echo=TRUE}
+```{r vars, echo=TRUE, results=FALSE}
 # calculate the groupings of FFMC by training quantile
 ffmcQuant <- quantile(train$FFMC, probs = seq(0, 1, .1))
 FFMCQuantile_train <- rep(0, nrow(train))
 FFMCQuantile_test <- rep(0, nrow(test))
 for (i in 10) {
   FFMCQuantile_train[ffmcQuant[i] < train$FFMC & 
-                 train$FFMC <= ffmcQuant[i + 1]] <- i
+                       train$FFMC <= ffmcQuant[i + 1]] <- i
   FFMCQuantile_test[ffmcQuant[i] < test$FFMC & 
-                 test$FFMC <= ffmcQuant[i + 1]] <- i
+                      test$FFMC <= ffmcQuant[i + 1]] <- i
 }
 
 train$FFMCQuantile <- FFMCQuantile_train
@@ -148,9 +150,10 @@ while (i < 1) {
 ```
 
 Perform variable selection using LASSO.
-```{r var_sel, include=TRUE}
+```{r var_sel, echo=TRUE, results=FALSE, fig.show='hide'}
 # cast as factors 
-vars_factors <- c("wkd", "wkdM", "summer", "FFMCQuantile", "rainvnorain", "grid_group", "month", "day", "X2", "Y2")
+vars_factors <- c("wkd", "wkdM", "summer", "FFMCQuantile", "rainvnorain", "grid_group"
+                  , "month", "day", "X2", "Y2")
 for(var in vars_factors) {
   train[, var] <- as.factor(train[, var])
 }
@@ -205,7 +208,7 @@ avPlots(m)
 ```
 
 After throwing out the noise (forest_ind and wkd), we have 5 strong covariates. The non-linear relationship between ISI and FFMC suggests two working models: with and without tFFMC. Here, we consider the simplier model without tFFMC, where instead we weight by tFFMC.
-```{r weights, include=TRUE}
+```{r weights, echo=TRUE, results=FALSE, fig.show='hide'}
 # Weight based on tFFMC
 train <- data.frame(train %>% group_by(tFFMC) %>% mutate(weight = n()))
 m_weight <- lm(sqISI ~
@@ -237,44 +240,79 @@ train[train$X2 == 7 & train$Y2 == 5, "region"] = 12
 
 train$region = as.factor(train$region)
 
-
 m_rand <- lme(sqISI ~ summer + wind + temp + rainvnorain + tFFMC
               , random = ~1|region
               , data =  train[-89, ]
               , method = "REML")
 summary(m_rand)
 plot(m_rand)
+par(mfrow = c(1, 1))
 qqnorm(m_rand$residuals)
 ```
 
-```{r}
-#build final model
+Errors are not normally distributed. Need to bootstrap to obtain empirical CI to test for significance.
+```{r boot, echo=TRUE, results=FALSE, fig.show='hide'}
+# build final model
 m1 = lm(sqISI ~ summer + wind + temp + rainvnorain 
-        #,data = train[-89,])
-       ,data = train)
+        , data = train)
 
-#1000 boostrap samples for each \beta    
+# 1000 boostrap samples for each coefficient    
 B <- 1000
-ResidualBootstrapM1 <-t( replicate(B, {
-  #yb <- fitted(m1) + resid(m1)[sample.int(nrow(train[-89,]), replace = TRUE)]
+ResidualBootstrapM1 <- t(replicate(B, {
   yb <- fitted(m1) + resid(m1)[sample.int(nrow(train), replace = TRUE)]
   boot <- model.matrix(m1)
   coef(lm(yb ~ boot - 1))
 }))
 
-#look at beta distributions
-par(mfrow=c(2,2))
-hist(ResidualBootstrapM1[,1], xlab = "summer")
-hist(ResidualBootstrapM1[,2], xlab ="wind")
-hist(ResidualBootstrapM1[,3], xlab ="temp")
-hist(ResidualBootstrapM1[,4], xlab ="rainvnorain")
+# look at distributions of coefficients
+par(mfrow = c(2, 2))
+hist(ResidualBootstrapM1[,1], xlab = "summer", main = "")
+hist(ResidualBootstrapM1[,2], xlab = "wind", main = "")
+hist(ResidualBootstrapM1[,3], xlab = "temp", main = "")
+hist(ResidualBootstrapM1[,4], xlab = "rainvnorain", main = "")
 
-#empirical CI 
+# empirical CI 
 t(apply(ResidualBootstrapM1, 2, quantile, c(.025, .975)))
 ```
 
+Apply final model to testing data. Obtain empirical CI and empirical p-values.
+```{r pred, echo=TRUE, results=FALSE, fig.show='hide'}
+# cast as factors 
+vars_factors <- c("summer", "rainvnorain")
+for(var in vars_factors) {
+  test[, var] <- as.factor(test[, var])
+}
 
+# fit candidate model on test data
+m1 <- lm(sqISI ~ summer + wind + temp + rainvnorain 
+         , data = test)
+par(mfrow = c(2, 2))
+summary(m1)
+plot(m1)
+avPlots(m1)
 
-```{r pred, include=TRUE}
+# plot fitted values
+par(mfrow = c(1,1))
+plotdf <- data.frame(cbind(test$sqISI^2, m1$fitted.values^2))
+names(plotdf) <- c("ActualValues", "FittedValues")
+ggplot(plotdf, aes(x = FittedValues, y = ActualValues)) + 
+  geom_point() + 
+  geom_segment(aes(x = 0, y = 0, xend = 15, yend = 15), col = "blue")
 
+# MSE for response ISI
+1 / nrow(test) * sum((test$sqISI - m1$fitted.values)^2)
+# MSE for raw ISI
+1 / nrow(test) * sum((test$sqISI^2 - m1$fitted.values^2)^2)
+
+# 1000 bootstrap samples for each coefficient
+bootCoefs  <- t(replicate(B, {
+  yb <- fitted(m1) + resid(m1)[sample(nrow(test), replace = TRUE)]
+  boot <- model.matrix(m1)
+  coef(lm(yb ~ boot - 1))
+}))
+
+# empirical CI
+t(apply(bootCoefs, 2, quantile, c(.025, .5, .975)))
+# empirical p-values
+apply(bootCoefs < 0, 2, sum) / B
 ```
