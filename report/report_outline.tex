@@ -134,16 +134,16 @@ Finally, we turn our attention to  evaluating the weather only based model by us
 \end{table}
 
 
-As previously noted, the estimates from normal theory are close to the estimates from a bootstrap, so the 95\% confidence intervals are reported based assuming normal errors:
+As previously noted, the estimates from normal theory are close to the estimates from a bootstrap, however there is still non-normality in the errors, therefore confidence intervals from a bootstrap are reported and used to make conclusions about the significance of variables.
 \begin{table}
 \centering
 \begin{tabular}{  | l | c | }\hline
   Variable & $95\%$  Confidence Interval \\ \hline
-  Intercept & $(  0.84,1.79  )$ \\
-  Is Summer & $( 0.26,0.90   )$\\
-  Wind & $(  0.02,0.14  )$ \\
+  Intercept & $(  0.85,1.77  )$ \\
+  Is Summer & $( 0.27,0.89   )$\\
+  Wind & $(  0.02,0.13  )$ \\
   Temperature & $(  0.02,0.07  )$ \\
-  Is Raining & $(  -1.19,0.67  )$ \\
+  Is Raining & $(  -1.30,0.62  )$ \\
   \hline
 \end{tabular}
 \caption{Final Confidence Intervals}
