@@ -16,7 +16,7 @@ train$lgISI = log(train$ISI + 1)
 train$tFFMC = log(max(train$FFMC) - train$FFMC + 1)
 train$tFFMC = ifelse(train$FFMC<mean(train$FFMC) - 2*sd(train$FFMC), 0, 1)
 train$tFFMC = ifelse(train$FFMC<80, 0, 1)
-train$tFFMC = as.factor(train$tFFMC)
+#train$tFFMC = as.factor(train$tFFMC)
 
 #cast as factors 
 train$wkd = as.factor(train$wkd)
@@ -29,6 +29,7 @@ train$month = as.factor(train$month)
 train$day = as.factor(train$day)
 train$X = as.factor(train$X)
 train$Y = as.factor(train$Y) 
+train$tFFMC = as.factor(train$tFFMC)
 
 #---------------------------------------
 #
@@ -38,34 +39,36 @@ train$Y = as.factor(train$Y)
 
 #construct regression equation
 f = formula(sqISI ~ 
-            # tFFMC 
+            #tFFMC 
             # + day #3 iteration 
             #+ month # 1iteration 
             #+ X #2 iteration 
             #+ Y #2 iteration 
-            + DMC #6 iteration 
-            + DC #6iteration
+            #+ DMC #6 iteration 
+            #+ DC #6iteration
+            #+ FFMC
             + temp 
-            + RH 
+            #+ RH 
             + wind 
             + wkd 
             #+ wkdM #4 iteration  
             + summer
-            + areaTrans 
-            + wetness 
+            #+ areaTrans 
+            #+ wetness 
             + rainvnorain 
-            + forest_ind 
-            + grid_group 
+            #+ forest_ind 
+            #+ grid_group 
             #+ tFFMC:rainvnorain 
             #+ FFMC:DMC #Iteration 5 
             #+ FFMC:DC #Iteration 5 
             #+ DC:DMC #Iteration 5 
-            + summer:rainvnorain 
-            + temp:RH 
-            + wetness:RH 
+            #+ summer:rainvnorain 
+            #+ temp:RH 
+            #+ wetness:RH 
             #+ tFFMC:wind 
-            + forest_ind:grid_group
+            #+ forest_ind:grid_group
             )
+
 
 #build model matrix
 X = model.matrix(f,train)
@@ -78,7 +81,7 @@ lambda_opt = cv$lambda.min
 
 lasso = glmnet::glmnet(X, Y, alpha = a, lambda = lambda_opt)
 tmp = sort(abs(coef(lasso)[,1]), decreasing = TRUE)
-varImp = data.frame(VarNames = names(tmp), Beta = as.vector(tmp))
+varImp = data.frame(VarNames = names(tmp), Beta = round(as.vector(tmp),3))
 varImp
 
 train$tISI =(train$ISI)^(1/3)
@@ -86,7 +89,7 @@ train[train$rainvnorain == 0, "rISI"] = train[train$rainvnorain == 0, "rISI"] - 
 train[train$rainvnorain == 1, "rISI"] = train[train$rainvnorain == 1, "rISI"] - mean(train[train$rainvnorain == 1, "ISI"])
 
 m = lm(sqISI ~
-         #tFFMC
+         tFFMC
         wkd
        + summer
        + wind 
