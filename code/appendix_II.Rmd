@@ -1,5 +1,5 @@
 ---
-title: "Appendix 2"
+title: "Appendix II: Final Modeling Procedure"
 output: pdf_document
 ---
 
@@ -14,7 +14,6 @@ library(ggplot2)
 
 Load data. Group variables. Perform transformations.
 ```{r data, echo=TRUE, results=FALSE}
-setwd("/Users/njosephs/Desktop/PhD/575/final project/")
 fires <- read.csv("forestfires.csv")
 
 # create the indicators for weekend and summer
@@ -159,8 +158,8 @@ for(var in vars_factors) {
 }
 
 # construct regression equation
-f <- formula(sqISI ~ 
-               tFFMC 
+f <- formula(sqISI ~ -1
+             + tFFMC 
              + X2
              + Y2
              + temp 
@@ -197,6 +196,7 @@ m <- lm(sqISI ~
         + forest_ind
         + wind
         + temp
+        + X2
         + wkd
         , data = train)
 
@@ -207,7 +207,7 @@ summary(m)
 avPlots(m)
 ```
 
-After throwing out the noise (forest_ind and wkd), we have 5 strong covariates. The non-linear relationship between ISI and FFMC suggests two working models: with and without tFFMC. Here, we consider the simplier model without tFFMC, where instead we weight by tFFMC.
+After throwing out the noise (forest_ind, X2, and wkd), we have 5 strong covariates. The non-linear relationship between ISI and FFMC suggests two working models: with and without tFFMC. Here, we consider the simplier model without tFFMC, where instead we weight by tFFMC.
 ```{r weights, echo=TRUE, results=FALSE, fig.show='hide'}
 # Weight based on tFFMC
 train <- data.frame(train %>% group_by(tFFMC) %>% mutate(weight = n()))
