@@ -12,6 +12,10 @@ library(glmnet)
 library(gridExtra)
 library(car)
 
+#add necessary variables
+train$tFFMC = ifelse(train$FFMC<80, 1, 0 )
+train$sqISI = sqrt(train$ISI)
+
 #-------------------------------------------
 #       Figure 1 
 #-------------------------------------------
@@ -59,18 +63,35 @@ dev.off()
 #-------------------------------------------
 #       Figure 3
 #-------------------------------------------
+train$tFFMC = ifelse(train$FFMC<80, 1, 0 )
 
-p4 <- ggplot(data = train, aes(x = FFMC, y = sqISI)) +
-  geom_point(color = "blue", alpha = 0.7) +
-  theme_minimal() +
-  labs(y = "Square Root ISI", x = "FFMC", main = "")
+p4.1<-ggplot(data=train, aes(x =tFFMC,y=sqISI)) + 
+  geom_point(color="blue",alpha = 0.7)+ 
+  theme_minimal()+ 
+  labs(y = "sqISI",x = "tFFMC", main = "")
+p4.2<-ggplot(data=train, aes(x =temp,y=sqISI))+ 
+  geom_point(color="blue",alpha = 0.7)+ 
+  theme_minimal()+ 
+  labs(y = "sqISI",x = "temp", main = "")
+p4.3<-ggplot(data=train, aes(x =summer,y=sqISI))+ 
+  geom_point(color="blue",alpha = 0.7)+
+  theme_minimal()+ 
+  labs(y = "sqISI",x = "summer", main = "")
+p4.4<-ggplot(data=train, aes(x =wind,y=sqISI))+
+  geom_point(color="blue",alpha = 0.7)+
+  theme_minimal()+ 
+  labs(y = "sqISI",x = "wind", main = "")
+p4.5<-ggplot(data=train, aes(x =rainvnorain,y=sqISI)) +
+  geom_point(color="blue",alpha = 0.7)+
+  theme_minimal()+
+  labs(y = "sqISI",x = "rainvnorain", main = "")
 
-pdf("FFMC_ISI_scatter.pdf")
-p4
+pdf("ISI_pairs.pdf")
+grid.arrange(p4.1,p4.2,p4.3,p4.4,p4.5, nrow = 2, ncol = 3)
 dev.off()
 
 #-------------------------------------------
-#       Figure 5 
+#       Figure 4 
 #-------------------------------------------
 
 f1 <- formula(sqISI ~ temp + wind + summer + rainvnorain)
@@ -90,7 +111,7 @@ plot_glmnet(fit1, ylim = c(0, .6))
 dev.off()
 
 #-------------------------------------------
-#       Figure 6 
+#       Figure 5 
 #-------------------------------------------
 
 train <- data.frame(train %>% group_by(tFFMC) %>% mutate(weight = n()))
@@ -135,7 +156,7 @@ grid.arrange(p5, p6, p7, nrow = 1, ncol = 3)
 dev.off()
 
 #-------------------------------------------
-#       Figure 7 
+#       Figure 6 
 #-------------------------------------------
 
 train <- data.frame(train %>% group_by(tFFMC) %>% mutate(weight = n()))
@@ -152,7 +173,7 @@ avPlots(m)
 dev.off()
 
 #-------------------------------------------
-#       Figure 8
+#       Figure 7
 #-------------------------------------------
 
 m1 <- lm(sqISI ~ summer + wind + temp + rainvnorain 
@@ -196,7 +217,7 @@ grid.arrange(p8, p9, p10, p11, nrow = 2, ncol = 2)
 dev.off()
 
 #-------------------------------------------
-#       Figure 9
+#       Figure 8
 #-------------------------------------------
 
 test$sqISI <- sqrt(test$ISI)

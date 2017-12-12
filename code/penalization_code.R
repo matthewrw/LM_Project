@@ -178,7 +178,7 @@ library(dplyr)
 train = data.frame(train %>% group_by(ra) %>% mutate(weight = n()))
 
 #see new_spatial_data.R for the X2 and Y2 variables
-m = lm(sgISI ~
+m = lm(sqISI ~
          summer
        + wind 
        + temp
