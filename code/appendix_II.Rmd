@@ -13,7 +13,8 @@ library(ggplot2)
 ```
 
 ```{r setwd, echo=FALSE}
-setwd("/Users/njosephs/Desktop/PhD/575/final project/")
+#setwd("/Users/njosephs/Desktop/PhD/575/final project/")
+setwd("~/Desktop/github/LM_Project/data/")
 fires <- read.csv("forestfires.csv")
 ```
 
@@ -54,6 +55,16 @@ est_wetness_metric <- function(Temp, rh){
 wetness <- est_wetness_metric(fires$temp, fires$RH)
 
 fires$wetness <- wetness
+```
+
+\begin{center}
+\includegraphics{~/Desktop/github/LM_Project/report/report_figures/Terrain_Grid.pdf}
+\end{center}
+
+```{r data2, echo=TRUE, results=FALSE}
+#-------------------------------------------
+#       Section 3.2
+#-------------------------------------------
 
 # simplified FFMC
 fires$tFFMC <- ifelse(fires$FFMC < 80, 0, 1)
