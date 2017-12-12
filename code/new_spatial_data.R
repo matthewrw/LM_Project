@@ -49,6 +49,24 @@ train[train$X2 == 7 & train$Y2==5, "region"] = 12
 
 train$region = as.factor(train$region)
 
+df = data.frame(train %>% group_by(X2,Y2) %>% summarize(mISI = mean(ISI)))
+z = matrix(0, ncol = 6, nrow = 2)
+xnames = unique(df[,1])
+ynames = unique(df[,2])
+
+for(x in xnames){
+  for(y in ynames){
+    ind = which(df[,1] == x & df[,2] == y)
+    if(length(ind) != 0)z[y-3,x-1] = df[ind,3]
+  }
+}
+
+
+library(plotly)
+p <- plot_ly(x = 1:9, y = 1:9, z = z, type= "heatmap")
+p
+
+
 #RANDOM INTERCEPT MODEL BASED ON NEW REGIONS 
 data.frame(train %>% group_by(X,Y) %>% summarize(weight = mean(ISI)))
 

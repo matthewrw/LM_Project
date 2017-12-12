@@ -31,7 +31,7 @@ par(mfrow = c(1,1))
 plotdf <- data.frame(cbind(test$sqISI^2,m1$fitted.values^2) )
 names(plotdf) <-    c("ActualValues","FittedValues")
 
-ggplot(plotdf, aes(x=FittedValues,y=ActualValues)) + geom_point() + geom_segment(aes(x=0,y=0,xend=15,yend=15),col="blue")
+ggplot(plotdf, aes(x=FittedValues,y=ActualValues)) + geom_point(col = "steelblue", alpha = .7) + geom_segment(aes(x=0,y=0,xend=15,yend=15),col="black") + theme_bw()
 
 #MSE for fitted predictor
 1/length(test$sqISI)*sum((test$sqISI-m1$fitted.values)^2)
@@ -43,6 +43,18 @@ ggplot(plotdf, aes(x=FittedValues,y=ActualValues)) + geom_point() + geom_segment
 # Bootstrap Code
 #
 #
+
+B <- 1000
+bootresults <-t( replicate(B, {
+  yb <- fitted(m1) + resid(m1)[sample.int(nrow(test), replace = TRUE)]
+  boot <- model.matrix(m1)
+  coef(lm(yb ~ boot - 1))
+}))
+
+#empirical CI 
+t(apply(bootresults, 2, quantile, c(.025, .975)))
+
+
 
 library(nlme)
 library(boot)

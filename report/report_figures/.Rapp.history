@@ -1,0 +1,537 @@
+z = rexp(200, 5)
+plot(density(z))
+x = runif(200)#
+Finverse = function(x){#
+	y = -log(1-x)/5#
+}#
+y = Finverse(x)#
+z = rexp(200, 5)#
+#
+plot(density(y), lty = 2)#
+points(density(z), lty = 3)
+x = runif(200)#
+Finverse = function(x){#
+	y = -log(1-x)/5#
+}#
+y = Finverse(x)#
+z = rexp(200, 5)#
+#
+plot(density(y), lty = 2)#
+points(density(z), lty = 3, type = "l")
+n = 200#
+lambda = 5#
+x = runif(n)#
+Finverse = function(x, lambda){#
+	y = -log(1-x)/lambda#
+}#
+y = Finverse(x, lambda)#
+z = rexp(n, 5)#
+#
+plot(density(z), lty = 2)#
+points(density(y), lty = 2,type = "l")
+n = 200#
+lambda = 5#
+x = runif(n)#
+Finverse = function(x, lambda){#
+	y = -log(1-x)/lambda#
+}#
+y = Finverse(x, lambda)#
+z = rexp(n, 5)#
+#
+plot(density(z), lty = 2)#
+points(density(y), lty =3,type = "l")
+plot(density(z), lty = 2)
+points(density(y), lty =3,type = "l")
+plot(density(z), lty = 2)#
+points(density(y), lty =3,type = "l")
+n = 200#
+lambda = 5#
+x = runif(n)#
+Finverse = function(x, lambda){#
+	y = -log(1-x)/lambda#
+}#
+y = Finverse(x, lambda)#
+z = rexp(n, 5)
+n = 200#
+lambda = 5#
+x = runif(n)#
+Finverse = function(x, lambda){#
+	y = -log(1-x)/lambda#
+}#
+y = Finverse(x, lambda)#
+z = rexp(n, 5)#
+#
+plot(density(z), lty = 2)#
+points(density(y), lty =3,type = "l")
+plot(density(z), lty = 2)#
+points(density(y), lty =3,type = "l")#
+legend("topright", legend = c("Exponential", "F-1(U)"), lty = c(2,3))
+plot(density(z), lty = 2)
+legend("topright", legend = c("Exponential", "F-1(U)"), lty = c(2,3))
+legend("topright", legend = c("Exponential", "F-1(Unif)"), lty = c(2,3))
+plot(density(z), lty = 2)#
+points(density(y), lty =3,type = "l")#
+legend("topright", legend = c("Exponential", "F-1(Unif)"), lty = c(2,3))
+plot(density(z), lty = 2, main = "Density Estimates",xlab = "x", ylab = "f(x)")#
+points(density(y), lty =3,type = "l")#
+legend("topright", legend = c("Exponential", "F-1(Unif)"), lty = c(2,3))
+x = c(22.0, 23.9, 20.9, 23.8, 25, 24, 21.7, 23.8, 22.8, 23.1, 23.1, 23.5, 23,23)
+hist(x)
+max(x)
+prod(x)
+sum(log(x))
+log(max(x)) - 1/n *sum(log(x))
+1/log(max(x)) - 1/n *sum(log(x))
+1/(log(max(x)) - 1/n *sum(log(x)))
+n
+n = length(x)
+n
+1/(log(max(x)) - 1/n *sum(log(x)))
+x = rnorm(100)
+y = rnorm(100)
+n = 100
+1/(n*mean(x)^2)
+1/(n^2) * mean(1/x^2)
+x = rnorm(100)
+1/(n*mean(x)^2)
+1/(n^2) * mean(1/x^2)
+x = rnorm(100)
+1/(n*mean(x)^2)
+1/((n^2) * mean(1/x^2))
+x = rnorm(100)
+1/(n*mean(x)^2)
+1/((n^2) * mean(1/x^2))
+x
+n = 800
+for(i in 1:100){#
+	print "Why didnt someone tell you this"#
+}
+for(i in 1:100){#
+	print("Why didnt someone tell you this")#
+}
+mymean
+?qt()
+qt(.05, 17)
+rej = qt(.05, 17)
+?t.test
+x = rnorm(100)
+t.test(x, alternative = "less", conf.level = .95, mu = 45)
+plot(rt(1000))
+plot(rt(1000, 17))
+hist(rt(1000, 17))
+hist(order(rt(1000, 17)))
+plot(order(rt(1000, 17)))
+order(rt(1000, 17))
+plot(sort(rt(1000, 17)))
+dt(x)
+dt(x, 17)
+x = seq(-4,4, 100)#
+y = dt(x, 17)#
+plot(x,y, type = "l")
+y = dt(x, 17)
+y
+y = dt(x, df = 17)
+y
+dt(x, df = 17)
+x = seq(-4,4, 100)
+y = dt(x, df = 17)
+x
+x = seq(-4,4, length = 100)
+y = dt(x, df = 17)
+plot(x,y, type = "l")
+?confint()
+?qnorm
+library(datasets)
+co2
+plot(co2)
+plot(co2[,1])
+co2$Jan
+names(co2)
+x = as.matrix(co2)
+x
+y = matrix(x,nrow = 12)
+y
+plot(y[,1])
+plot(y[,1], type = "l")
+plot(co2)
+plot(y[,1])
+head(y)
+y
+plot(y[,1])
+apply(y, 2, function(i) plot(x[,i]))
+plot(y[,1])
+apply(y, 2, function(i) plot(x[,i]))
+apply(y, 2, function(i) plot(y[,i]))
+plot(y[,1])
+apply(y, 2, function(i) plot(y[,i]))
+presidents
+plot(presidents)
+plot(presidents[1,])
+as.matrix(pesidents)
+as.matrix(presidents)
+matrix(as.matrix(presidents), ncol = 4)
+pres = matrix(as.matrix(presidents), ncol = 4)
+pres
+plot(presidents[,1])
+plot(pres[,1])
+plot(1 = pres[,1], xlim = c(1,4))
+plot(1,pres[,1], xlim = c(1,4))
+plot(rep(1, nrow(pres)),pres[,1], xlim = c(1,4))
+plot(rep(1, nrow(pres)),pres[,1])#
+points(rep(1, nrow(pres)),pres[,2])#
+points(rep(1, nrow(pres)),pres[,3])#
+points(rep(1, nrow(pres)),pres[,4])
+plot(rep(1, nrow(pres)),pres[,1])#
+points(rep(2, nrow(pres)),pres[,2])#
+points(rep(3, nrow(pres)),pres[,3])#
+points(rep(4, nrow(pres)),pres[,4])
+plot(rep(1, nrow(pres)),pres[,1])
+plot(rep(1, nrow(pres)),pres[,1], xlim = c(1,4))#
+points(rep(2, nrow(pres)),pres[,2])#
+points(rep(3, nrow(pres)),pres[,3])#
+points(rep(4, nrow(pres)),pres[,4])
+presidents
+pres = matrix(as.matrix(presidents), ncol = 16)
+as.matrix(presidents)
+pres = matrix(as.matrix(presidents), ncol = 4)
+pres
+as.matrix(presidents)[-1:8]
+as.matrix(presidents)[-c(1:8)]
+pres = matrix(as.matrix(presidents)[-c(1:8)], ncol = 16)
+pres
+president
+presidents
+fires = read.csv("forestfires.csv")
+fires = read.csv("~/Desktop/forestfires.csv")
+fires
+head(fires)
+fires$temp
+hist(fires$temp)
+table(fires$month)
+hist(fires$month)
+hist(fires$temp)
+fires$ISI
+hist(fires$ISI)
+table(fires$month)
+nrow(fires)
+colnames(fires)
+paris(fires)
+paris(~fires)
+pairs(~fires)
+pairs(fires)
+hist(fires$ISI)
+plot(fires$RH, fires$DMC)
+plot(fires$Rain, fires$DMC)
+plot(fires$rain, fires$DMC)
+hist(rain)
+hist(fires$rain)
+plot(density(fires$rain))
+plot(log(rain))
+plot(log(fires$rain))
+hist(log(fires$rain))
+hist(log(fires$rain), bins = 2-)
+hist(log(fires$rain), bins = 20)
+hist(log(fires$rain), breaks = 20)
+hist(fires$ISI)
+which.max(fires$ISI)
+fires[23,]
+mean(fires$DMC)
+mean(fires$FFMC)
+mean(fires$DC)
+hist(fires$DC)
+hist(fires$RH)
+mean(fires$RH)
+mean(fires$wind)
+hist(fires$RH)
+hist(fires$ISI)
+hist(fires$DC)
+boxplot(fires$month, fires$DC)
+boxplot( fires$DC,fires$month)
+fires$DC
+?boxplot
+boxplot(fires$DC~fires$month)
+?datetime
+?DateTime
+?DateTime()
+head(df)
+hist(fires$wind)
+head(fires)
+hist(fires$area)
+area
+fires$area
+fires$ISIS
+fires$ISI
+plot(fires$DC, fires$ISI)
+plot(fires$DC,fires$ISI)
+geyser
+gyser
+library(datasets)
+geyser
+faithful
+plot(faithful[,1], faithful[,2])
+# sample data#
+set.seed(750)#
+X_i <- runif(1000, 0, 1)#
+e_i <- rnorm(1000, 0, 0.2)#
+Y_i <- sin(2*pi*X_i^3)^3 + e_i
+# initialize df for plotting#
+N <- seq(10, 150, by = 10)#
+D <- seq(1:6)#
+error_plot <- data.frame(n = integer(), pse = numeric(), d = character())
+# compute CV for dimension-D model on N datapoints#
+for (d in D) {#
+  d_plot <- data.frame(n = N, pse = rep(0, length(N)), d = paste0("d", d))#
+  for (n in N) {#
+    m_hat = lm(Y_i[1:n] ~ poly(X_i[1:n], d))#
+    pse = sum((residuals(m_hat) / (1 - hatvalues(m_hat)))^2) / n#
+    d_plot[d_plot$n == n, "pse"] <- pse#
+  }#
+  error_plot <- rbind(error_plot, d_plot)#
+}#
+#
+# plot#
+ggplot(data = error_plot, aes(x = n, y = pse, group = d)) + #
+  geom_line(aes(colour = d)) +#
+  coord_cartesian(ylim = c(0, 0.35)) +#
+  labs(title = "PSE by n", x = "n", y = "PSE", color = "Dimension")
+library("ggplot2")
+# compute CV for dimension-D model on N datapoints#
+for (d in D) {#
+  d_plot <- data.frame(n = N, pse = rep(0, length(N)), d = paste0("d", d))#
+  for (n in N) {#
+    m_hat = lm(Y_i[1:n] ~ poly(X_i[1:n], d))#
+    pse = sum((residuals(m_hat) / (1 - hatvalues(m_hat)))^2) / n#
+    d_plot[d_plot$n == n, "pse"] <- pse#
+  }#
+  error_plot <- rbind(error_plot, d_plot)#
+}#
+#
+# plot#
+ggplot(data = error_plot, aes(x = n, y = pse, group = d)) + #
+  geom_line(aes(colour = d)) +#
+  coord_cartesian(ylim = c(0, 0.35)) +#
+  labs(title = "PSE by n", x = "n", y = "PSE", color = "Dimension")
+# sample data#
+set.seed(234)#
+X_i <- runif(1000, 0, 1)#
+e_i <- rnorm(1000, 0, 0.2)#
+Y_i <- sin(2*pi*X_i^3)^3 + e_i#
+#
+# initialize df for plotting#
+N <- seq(10, 150, by = 10)#
+D <- seq(1:6)#
+error_plot <- data.frame(n = integer(), pse = numeric(), d = character())#
+#
+# compute CV for dimension-D model on N datapoints#
+for (d in D) {#
+  d_plot <- data.frame(n = N, pse = rep(0, length(N)), d = paste0("d", d))#
+  for (n in N) {#
+    m_hat = lm(Y_i[1:n] ~ poly(X_i[1:n], d))#
+    pse = sum((residuals(m_hat) / (1 - hatvalues(m_hat)))^2) / n#
+    d_plot[d_plot$n == n, "pse"] <- pse#
+  }#
+  error_plot <- rbind(error_plot, d_plot)#
+}#
+#
+# plot#
+ggplot(data = error_plot, aes(x = n, y = pse, group = d)) + #
+  geom_line(aes(colour = d)) +#
+  coord_cartesian(ylim = c(0, 0.35)) +#
+  labs(title = "PSE by n", x = "n", y = "PSE", color = "Dimension")
+# sample data#
+set.seed(134)#
+X_i <- runif(1000, 0, 1)#
+e_i <- rnorm(1000, 0, 0.2)#
+Y_i <- sin(2*pi*X_i^3)^3 + e_i#
+#
+# initialize df for plotting#
+N <- seq(10, 150, by = 10)#
+D <- seq(1:6)#
+error_plot <- data.frame(n = integer(), pse = numeric(), d = character())#
+#
+# compute CV for dimension-D model on N datapoints#
+for (d in D) {#
+  d_plot <- data.frame(n = N, pse = rep(0, length(N)), d = paste0("d", d))#
+  for (n in N) {#
+    m_hat = lm(Y_i[1:n] ~ poly(X_i[1:n], d))#
+    pse = sum((residuals(m_hat) / (1 - hatvalues(m_hat)))^2) / n#
+    d_plot[d_plot$n == n, "pse"] <- pse#
+  }#
+  error_plot <- rbind(error_plot, d_plot)#
+}#
+#
+# plot#
+ggplot(data = error_plot, aes(x = n, y = pse, group = d)) + #
+  geom_line(aes(colour = d)) +#
+  coord_cartesian(ylim = c(0, 0.35)) +#
+  labs(title = "PSE by n", x = "n", y = "PSE", color = "Dimension")
+# sample data#
+set.seed(123)#
+X_i <- runif(1000, 0, 1)#
+e_i <- rnorm(1000, 0, 0.2)#
+Y_i <- sin(2*pi*X_i^3)^3 + e_i#
+#
+# initialize df for plotting#
+N <- seq(10, 150, by = 10)#
+D <- seq(1:6)#
+error_plot <- data.frame(n = integer(), pse = numeric(), d = character())#
+#
+# compute CV for dimension-D model on N datapoints#
+for (d in D) {#
+  d_plot <- data.frame(n = N, pse = rep(0, length(N)), d = paste0("d", d))#
+  for (n in N) {#
+    m_hat = lm(Y_i[1:n] ~ poly(X_i[1:n], d))#
+    pse = sum((residuals(m_hat) / (1 - hatvalues(m_hat)))^2) / n#
+    d_plot[d_plot$n == n, "pse"] <- pse#
+  }#
+  error_plot <- rbind(error_plot, d_plot)#
+}#
+#
+# plot#
+ggplot(data = error_plot, aes(x = n, y = pse, group = d)) + #
+  geom_line(aes(colour = d)) +#
+  coord_cartesian(ylim = c(0, 0.35)) +#
+  labs(title = "PSE by n", x = "n", y = "PSE", color = "Dimension")
+# sample data#
+#set.seed(123)#
+X_i <- runif(1000, 0, 1)#
+e_i <- rnorm(1000, 0, 0.2)#
+Y_i <- sin(2*pi*X_i^3)^3 + e_i#
+#
+# initialize df for plotting#
+N <- seq(10, 150, by = 10)#
+D <- seq(1:6)#
+error_plot <- data.frame(n = integer(), pse = numeric(), d = character())#
+#
+# compute CV for dimension-D model on N datapoints#
+for (d in D) {#
+  d_plot <- data.frame(n = N, pse = rep(0, length(N)), d = paste0("d", d))#
+  for (n in N) {#
+    m_hat = lm(Y_i[1:n] ~ poly(X_i[1:n], d))#
+    pse = sum((residuals(m_hat) / (1 - hatvalues(m_hat)))^2) / n#
+    d_plot[d_plot$n == n, "pse"] <- pse#
+  }#
+  error_plot <- rbind(error_plot, d_plot)#
+}#
+#
+# plot#
+ggplot(data = error_plot, aes(x = n, y = pse, group = d)) + #
+  geom_line(aes(colour = d)) +#
+  coord_cartesian(ylim = c(0, 0.35)) +#
+  labs(title = "PSE by n", x = "n", y = "PSE", color = "Dimension")
+# sample data#
+set.seed(750)#
+X_i <- runif(1000, 0, 1)#
+e_i <- rnorm(1000, 0, 0.2)#
+Y_i <- sin(2*pi*X_i^3)^3 + e_i#
+#
+# initialize df for plotting#
+N <- seq(10, 150, by = 10)#
+D <- seq(1:6)#
+error_plot <- data.frame(n = integer(), pse = numeric(), d = character())#
+#
+# compute CV for dimension-D model on N datapoints#
+for (d in D) {#
+  d_plot <- data.frame(n = N, pse = rep(0, length(N)), d = paste0("d", d))#
+  for (n in N) {#
+    m_hat = lm(Y_i[1:n] ~ poly(X_i[1:n], d))#
+    pse = sum((residuals(m_hat) / (1 - hatvalues(m_hat)))^2) / n#
+    d_plot[d_plot$n == n, "pse"] <- pse#
+  }#
+  error_plot <- rbind(error_plot, d_plot)#
+}#
+#
+# plot#
+ggplot(data = error_plot, aes(x = n, y = pse, group = d)) + #
+  geom_line(aes(colour = d)) +#
+  coord_cartesian(ylim = c(0, 0.35)) +#
+  labs(title = "PSE by n", x = "n", y = "PSE", color = "Dimension")
+?model.frame
+x = rnorm(100)
+y = x + rnorm(100, 0 , .2)
+plot(x,y)
+m = lm(y~x)
+model.response(m)
+model.frame(m)
+model.response(model.frame(m))
+lmfit <-  lm(model.response(model.frame(m)) ~ fitted(m))
+lmfit
+summary(lmfit)
+par(mfrow =c(2,2));plot(lmfit)
+plot(fitted(m), y)
+x
+summary(lmfit)$r.squared
+summary(m)$r.squared
+plot(x^2,y)
+summary(m)$r.squared
+var(residuals(m))/(var(model.response(model.frame(m)))
+)
+var(residuals(m))
+var(y)
+log(log(fires$FFMC))
+hist(log(log(fires$FFMC)))
+?boot
+??boot
+install.packages("boot")
+?boot
+library(boot)
+?boot
+sample("M","K","A","B","n")
+sample(("M","K","A","B","N"),5)
+set.seed(576);sample(c("M","K","A","B","N"),5)
+setwd("~/Desktop/github/LM_Project/data")
+train <- data.frame(read.csv("train.csv"))
+library(ggplot2)#
+library(dplyr)#
+library(glmnet)#
+library(gridExtra)#
+library(car)
+train$tFFMC = ifelse(train$FFMC<80, 1, 0 )
+p4.1<-ggplot(data=train, aes(x =tFFMC,y=sqISI)) + #
+  geom_point(color="blue",alpha = 0.7)+ #
+  theme_minimal()+ #
+  labs(y = "sqISI",x = "tFFMC", main = "")#
+p4.2<-ggplot(data=train, aes(x =temp,y=sqISI))+ #
+  geom_point(color="blue",alpha = 0.7)+ #
+  theme_minimal()+ #
+  labs(y = "sqISI",x = "temp", main = "")#
+p4.3<-ggplot(data=train, aes(x =summer,y=sqISI))+ #
+  geom_point(color="blue",alpha = 0.7)+#
+  theme_minimal()+ #
+  labs(y = "sqISI",x = "summer", main = "")#
+p4.4<-ggplot(data=train, aes(x =wind,y=sqISI))+#
+  geom_point(color="blue",alpha = 0.7)+#
+  theme_minimal()+ #
+  labs(y = "sqISI",x = "wind", main = "")#
+p4.5<-ggplot(data=train, aes(x =rainvnorain,y=sqISI)) +#
+  geom_point(color="blue",alpha = 0.7)+#
+  theme_minimal()+#
+  labs(y = "sqISI",x = "rainvnorain", main = "")
+grid.arrange(p4.1,p4.2,p4.3,p4.4,p4.5, nrow = 2, ncol = 3)
+train$tFFMC = ifelse(train$FFMC<80, 1, 0 )#
+train$sqISI = sqrt(train$ISI)
+setwd("../report/report_figures")
+p4.1<-ggplot(data=train, aes(x =tFFMC,y=sqISI)) + #
+  geom_point(color="blue",alpha = 0.7)+ #
+  theme_minimal()+ #
+  labs(y = "sqISI",x = "tFFMC", main = "")#
+p4.2<-ggplot(data=train, aes(x =temp,y=sqISI))+ #
+  geom_point(color="blue",alpha = 0.7)+ #
+  theme_minimal()+ #
+  labs(y = "sqISI",x = "temp", main = "")#
+p4.3<-ggplot(data=train, aes(x =summer,y=sqISI))+ #
+  geom_point(color="blue",alpha = 0.7)+#
+  theme_minimal()+ #
+  labs(y = "sqISI",x = "summer", main = "")#
+p4.4<-ggplot(data=train, aes(x =wind,y=sqISI))+#
+  geom_point(color="blue",alpha = 0.7)+#
+  theme_minimal()+ #
+  labs(y = "sqISI",x = "wind", main = "")#
+p4.5<-ggplot(data=train, aes(x =rainvnorain,y=sqISI)) +#
+  geom_point(color="blue",alpha = 0.7)+#
+  theme_minimal()+#
+  labs(y = "sqISI",x = "rainvnorain", main = "")
+grid.arrange(p4.1,p4.2,p4.3,p4.4,p4.5, nrow = 2, ncol = 3)
+pdf("ISI_pairs.pdf")#
+grid.arrange(p4.1,p4.2,p4.3,p4.4,p4.5, nrow = 2, ncol = 3)#
+dev.off()

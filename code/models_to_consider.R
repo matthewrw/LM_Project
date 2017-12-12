@@ -7,7 +7,7 @@
 
 #Read in data
 setwd("~/Desktop/github/LM_Project/data")
-train = data.frame(read.csv("data/train.csv"))
+train = data.frame(read.csv("train.csv"))
 
 #transform ISI 
 train$sqISI = sqrt(train$ISI)
@@ -25,8 +25,8 @@ train$tFFMC = as.factor(train$tFFMC)
 
 #No FFMC model
 m1 = lm(sqISI ~ summer + wind + temp + rainvnorain 
-        ,data = train[-89,])
-       #,data = train)
+        #,data = train[-89,])
+       ,data = train)
 par(mfrow = c(2,2));plot(m1)
 car::avPlots(m1)
 summary(m1)
@@ -66,8 +66,6 @@ summary(m3)
 # Citation Solution to Homework 7
 #--------------------------------------------
 library(boot)
-
-
 
 residualStat <- function(formula, data, indices) { # private function for boot to get the residuals
   dfBoot <- data[indices,] 
@@ -117,7 +115,8 @@ plot(resultsM3B, index=6) # tFFMC
 
 B <- 1000
 ResidualBootstrapM1 <-t( replicate(B, {
-  yb <- fitted(m1) + resid(m1)[sample.int(nrow(train[-89,]), replace = TRUE)]
+  #yb <- fitted(m1) + resid(m1)[sample.int(nrow(train[-89,]), replace = TRUE)]
+  yb <- fitted(m1) + resid(m1)[sample.int(nrow(train), replace = TRUE)]
   boot <- model.matrix(m1)
   coef(lm(yb ~ boot - 1))
 }))
